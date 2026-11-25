@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ديوان الشرق | قائمة الطعام الرقمية</title>
+    
+    <!-- استدعاء خطوط جوجل العربية الفاخرة (Amiri للعناوين و Tajawal للنصوص) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- استدعاء Tailwind CSS للتصميم المتجاوب والمرن -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- تخصيص إعدادات Tailwind بالألوان والخطوط الصحراوية -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        desert: {
+                            cream: '#FAF6F0',     // بيج كريمي ناعم للبطاقات
+                            beige: '#F5EFE6',     // البيج الصحراوي الأساسي للخلفية
+                            sand: '#E6D8C3',      // رمال الصحراء للحدود والعناصر الثانوية
+                            clay: '#D4BFA0',      // طيني دافئ
+                            coffee: '#3E2C1C',    // بني داكن/قهوة للنصوص الأساسية
+                            mocha: '#5C4430',     // بني متوسط للنصوص الثانوية
+                            gold: '#B8860B',      // ذهبي عتيق للتفاصيل الفاخرة
+                            bronze: '#C59B27',    // برونزي دافئ
+                            olive: '#6B705C',     // زيتي هادئ للوسوم النباتية
+                            terracotta: '#A84A32' // طيني محمر للوسوم الحارة
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Amiri', 'serif'],
+                        sans: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* تنسيقات مخصصة للنقوش الإسلامية الدقيقة والحركات الناعمة */
+        body {
+            background-color: #F5EFE6;
+            color: #3E2C1C;
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* خلفية النقش الهندسي الإسلامي الشفاف جداً (Minimalist Islamic Star Pattern) */
+        .islamic-bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23B8860B' stroke-width='0.8' stroke-opacity='0.06'%3E%3Cpath d='M40 0L49.5 17.5L68.3 11.7L62.5 30.5L80 40L62.5 49.5L68.3 68.3L49.5 62.5L40 80L30.5 62.5L11.7 68.3L17.5 49.5L0 40L17.5 30.5L11.7 11.7L30.5 17.5Z'/%3E%3Ccircle cx='40' cy='40' r='12'/%3E%3Cpath d='M0 0L17.5 17.5M80 0L62.5 17.5M0 80L17.5 62.5M80 80L62.5 62.5'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* إخفاء شريط التمرير الأفقي في شريط التصنيفات مع الحفاظ على وظيفة السحب */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* تأثير انتقال ناعم للبطاقات */
+        .menu-card {
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(62, 44, 28, 0.12);
+        }
+    </style>
+</head>
+<body class="islamic-bg-pattern min-h-screen flex flex-col selection:bg-desert-gold selection:text-white">
+
+    <!-- ==================== الشريط العلوي (Header) ==================== -->
+    <header class="relative bg-desert-cream/90 backdrop-blur-md border-b border-desert-sand/80 pt-6 pb-5 px-4 sm:px-8">
+        <!-- إطار زخرفي علوي رفيع جداً -->
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-desert-sand via-desert-gold to-desert-sand opacity-75"></div>
+
+        <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+            <!-- شعار المطعم مع نجمة ثمانية إسلامية بسيطة -->
+            <div class="flex items-center gap-3 mb-1">
+                <svg class="w-6 h-6 text-desert-gold opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2L14.8 7.2L20.5 6.5L18.2 12L20.5 17.5L14.8 16.8L12 22L9.2 16.8L3.5 17.5L5.8 12L3.5 6.5L9.2 7.2L12 2Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span class="text-xs tracking-widest uppercase text-desert-gold font-semibold">أصالة الضيافة العربية</span>
+                <svg class="w-6 h-6 text-desert-gold opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2L14.8 7.2L20.5 6.5L18.2 12L20.5 17.5L14.8 16.8L12 22L9.2 16.8L3.5 17.5L5.8 12L3.5 6.5L9.2 7.2L12 2Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-5xl font-bold text-desert-coffee tracking-wide">
+                ديوان الشرق
+            </h1>
+            <p class="text-desert-mocha text-sm sm:text-base mt-1.5 max-w-md">
+                نكهات عريقة تُروى على مائدة الكرم.. اختر أطباقك المفضلة بكل يسر
+            </p>
+
+            <!-- فاصل زخرفي إسلامي ناعم (Minimalist Divider) -->
+            <div class="w-full max-w-xs flex items-center justify-center gap-3 mt-4 opacity-60">
+                <div class="h-[1px] flex-1 bg-gradient-to-l from-desert-gold to-transparent"></div>
+                <svg class="w-4 h-4 text-desert-gold" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/>
+                </svg>
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-desert-gold to-transparent"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== شريط التنقل الثابت والبحث (Sticky Filter & Search Bar) ==================== -->
+    <div class="sticky top-0 z-30 bg-desert-beige/95 backdrop-blur-md border-b border-desert-sand shadow-sm transition-all">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            
+            <!-- أزرار الأقسام (Categories) -->
+            <nav id="category-tabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" aria-label="أقسام القائمة">
+                <!-- يتم توليد الأزرار ديناميكياً عبر JS -->
+            </nav>
+
+            <!-- شريط البحث السريع وزر السلة للمتصفحات الكبيرة -->
+            <div class="flex items-center gap-2.5">
+                <div class="relative flex-1 md:w-64">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="ابحث عن طبق (مثال: منسف، كبة)..." 
+                        class="w-full bg-desert-cream border border-desert-sand rounded-xl py-2 pr-9 pl-3 text-sm text-desert-coffee placeholder-desert-mocha/60 focus:outline-none focus:border-desert-gold focus:ring-1 focus:ring-desert-gold transition"
+                    >
+                    <!-- أيقونة البحث -->
+                    <svg class="w-4 h-4 text-desert-mocha/70 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <!-- زر مسح البحث -->
+                    <button id="clear-search" class="hidden absolute left-2.5 top-1/2 -translate-y-1/2 text-desert-mocha/60 hover:text-desert-coffee text-xs">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- زر السلة في الشريط العلوي -->
+                <button 
+                    onclick="toggleCartDrawer()" 
+                    class="relative bg-desert-coffee hover:bg-desert-mocha text-desert-cream px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-medium transition shadow-sm shrink-0"
+                    aria-label="سلة الطلبات"
+                >
+                    <svg class="w-5 h-5 text-desert-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                    <span class="hidden sm:inline">طلباتي</span>
+                    <span id="header-cart-count" class="bg-desert-gold text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== المحتوى الرئيسي (قائمة الأطباق) ==================== -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+        <!-- عنوان القسم الحالي وعدد النتائج -->
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 id="current-category-title" class="font-serif text-2xl sm:text-3xl font-bold text-desert-coffee">
+                    جميع الأطباق
+                </h2>
+                <p id="items-count-label" class="text-xs sm:text-sm text-desert-mocha mt-0.5">
+                    تشكيلة مختارة بعناية من مطبخنا العربي الأصيل
+                </p>
+            </div>
+        </div>
+
+        <!-- شبكة عرض البطاقات (Menu Grid) -->
+        <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- يتم توليد بطاقات الأطباق هنا عبر JavaScript -->
+        </div>
+
+        <!-- رسالة في حال عدم وجود نتائج للبحث -->
+        <div id="empty-search-state" class="hidden text-center py-16 bg-desert-cream/70 rounded-2xl border border-desert-sand/60">
+            <svg class="w-12 h-12 mx-auto text-desert-gold/60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="font-serif text-xl font-bold text-desert-coffee">لم نجد طبقاً بهذا الاسم</h3>
+            <p class="text-sm text-desert-mocha mt-1">جرب البحث بكلمة أخرى أو تصفح جميع الأقسام</p>
+            <button onclick="resetFilters()" class="mt-4 px-5 py-2 bg-desert-sand/60 hover:bg-desert-sand text-desert-coffee rounded-xl text-sm font-medium transition">
+                عرض كل القائمة
+            </button>
+        </div>
+    </main>
+
+    <!-- ==================== زر سلة عائم للهواتف (Floating Mobile Cart Button) ==================== -->
+    <div id="floating-cart-bar" class="fixed bottom-4 left-4 right-4 z-30 md:hidden transition-transform duration-300 translate-y-24">
+        <button 
+            onclick="toggleCartDrawer()" 
+            class="w-full bg-desert-coffee text-desert-cream py-3.5 px-5 rounded-2xl shadow-xl border border-desert-gold/30 flex items-center justify-between"
+        >
+            <div class="flex items-center gap-3">
+                <span id="mobile-cart-count" class="bg-desert-gold text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
+                <span class="font-medium text-sm">عرض سلة الطلبات</span>
+            </div>
+            <span id="mobile-cart-total" class="font-bold text-desert-bronze text-base">0 ر.س</span>
+        </button>
+    </div>
+
+    <!-- ==================== نافذة تفاصيل الطبق المنبثقة (Dish Details Modal) ==================== -->
+    <div id="dish-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-desert-coffee/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-desert-cream border border-desert-sand rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl transform transition-all relative" onclick="event.stopPropagation()">
+            <!-- زر إغلاق النافذة -->
+            <button onclick="closeDishModal()" class="absolute top-4 left-4 z-10 w-9 h-9 rounded-full bg-desert-cream/90 text-desert-coffee hover:bg-desert-sand flex items-center justify-center shadow-md transition" aria-label="إغلاق">
+                ✕
+            </button>
+
+            <!-- صورة الطبق في النافذة -->
+            <div class="relative h-56 sm:h-64 bg-desert-sand/40 overflow-hidden">
+                <img id="modal-dish-img" src="" alt="" class="w-full h-full object-cover">
+                <div id="modal-dish-badges" class="absolute bottom-3 right-3 flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <!-- تفاصيل الطبق -->
+            <div class="p-6">
+                <div class="flex items-start justify-between gap-4">
+                    <h3 id="modal-dish-name" class="font-serif text-2xl sm:text-3xl font-bold text-desert-coffee"></h3>
+                    <span id="modal-dish-price" class="font-bold text-xl text-desert-gold shrink-0"></span>
+                </div>
+
+                <p id="modal-dish-desc" class="text-desert-mocha text-sm leading-relaxed mt-3"></p>
+
+                <!-- معلومات إضافية: السعرات والمكونات -->
+                <div class="mt-5 pt-4 border-t border-desert-sand/70 grid grid-cols-1 gap-3">
+                    <div class="flex items-center gap-2 text-xs text-desert-mocha bg-desert-beige/80 px-3 py-2 rounded-xl">
+                        <span class="text-desert-gold text-base">🔥</span>
+                        <span>القيمة الغذائية: <strong id="modal-dish-calories" class="text-desert-coffee"></strong> سعرة حرارية</span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-desert-coffee block mb-1.5">المكونات الرئيسية:</span>
+                        <div id="modal-dish-ingredients" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+
+                <!-- التحكم بالكمية والإضافة للسلة -->
+                <div class="mt-6 flex items-center gap-3">
+                    <div class="flex items-center bg-desert-beige border border-desert-sand rounded-xl p-1">
+                        <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-lg hover:bg-desert-sand/60 text-desert-coffee font-bold text-lg transition">-</button>
+                        <span id="modal-qty" class="w-10 text-center font-bold text-desert-coffee">1</span>
+                        <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-lg hover:bg-desert-sand/60 text-desert-coffee font-bold text-lg transition">+</button>
+                    </div>
+                    <button id="modal-add-btn" class="flex-1 bg-desert-coffee hover:bg-desert-mocha text-desert-cream py-3 px-5 rounded-xl font-bold text-sm transition shadow-md flex items-center justify-center gap-2">
+                        <span>إضافة إلى الطلب</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== سلة الطلبات الجانبية (Order Drawer) ==================== -->
+    <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 z-40 bg-desert-coffee/50 backdrop-blur-xs hidden transition-opacity"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-full max-w-md bg-desert-cream border-r border-desert-sand shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- رأس السلة -->
+        <div class="p-5 bg-desert-beige border-b border-desert-sand flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <svg class="w-6 h-6 text-desert-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <h3 class="font-serif text-2xl font-bold text-desert-coffee">قائمة طلباتك</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full hover:bg-desert-sand/70 text-desert-coffee flex items-center justify-center transition">
+                ✕
+            </button>
+        </div>
+
+        <!-- محتوى السلة (الأصناف المختارة) -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4">
+            <!-- يتم توليد العناصر المضافة هنا -->
+        </div>
+
+        <!-- تذييل السلة (رقم الطاولة، الملاحظات، الإجمالي، وإرسال الطلب) -->
+        <div id="cart-footer" class="p-5 bg-desert-beige border-t border-desert-sand space-y-3.5">
+            <div class="grid grid-cols-3 gap-2.5">
+                <div class="col-span-1">
+                    <label for="table-number" class="block text-xs font-bold text-desert-coffee mb-1">رقم الطاولة</label>
+                    <input type="number" id="table-number" min="1" max="99" placeholder="مثال: 7" class="w-full bg-desert-cream border border-desert-sand rounded-xl px-3 py-2 text-sm text-desert-coffee focus:outline-none focus:border-desert-gold">
+                </div>
+                <div class="col-span-2">
+                    <label for="order-notes" class="block text-xs font-bold text-desert-coffee mb-1">ملاحظات للمطبخ (اختياري)</label>
+                    <input type="text" id="order-notes" placeholder="بدون بصل، زيادة دبس رمان..." class="w-full bg-desert-cream border border-desert-sand rounded-xl px-3 py-2 text-sm text-desert-coffee focus:outline-none focus:border-desert-gold">
+                </div>
+            </div>
+
+            <!-- تفاصيل الحساب -->
+            <div class="pt-2 border-t border-desert-sand/70 space-y-1 text-sm">
+                <div class="flex justify-between text-desert-mocha">
+                    <span>المجموع الفرعي</span>
+                    <span id="cart-subtotal">0 ر.س</span>
+                </div>
+                <div class="flex justify-between text-desert-mocha text-xs">
+                    <span>ضريبة القيمة المضافة (15%)</span>
+                    <span id="cart-tax">0 ر.س</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg text-desert-coffee pt-1">
+                    <span>الإجمالي الكلي</span>
+                    <span id="cart-total" class="text-desert-gold">0 ر.س</span>
+                </div>
+            </div>
+
+            <button onclick="submitOrder()" class="w-full bg-desert-coffee hover:bg-desert-mocha text-desert-cream py-3.5 rounded-xl font-bold text-base shadow-md transition flex items-center justify-center gap-2">
+                <span>تأكيد وإرسال الطلب</span>
+                <svg class="w-5 h-5 text-desert-bronze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== نافذة تأكيد الطلب والفاتورة (Order Receipt Modal) ==================== -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-desert-coffee/65 backdrop-blur-sm">
+        <div class="bg-desert-cream border-2 border-desert-gold/40 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl relative">
+            <div class="w-16 h-16 mx-auto bg-desert-olive/15 text-desert-olive rounded-full flex items-center justify-center mb-4">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-desert-coffee">تم استلام طلبك بكل سرور!</h3>
+            <p class="text-sm text-desert-mocha mt-1">بدأ طهاتنا بتحضير أطباقك الطازجة الآن</p>
+
+            <div id="receipt-summary" class="mt-4 bg-desert-beige/80 border border-desert-sand rounded-2xl p-4 text-right text-sm space-y-2">
+                <!-- ملخص الفاتورة يظهر هنا -->
+            </div>
+
+            <button onclick="closeReceiptModal()" class="mt-6 w-full bg-desert-coffee hover:bg-desert-mocha text-desert-cream py-3 rounded-xl font-bold text-sm transition">
+                العودة إلى القائمة
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== إشعار منبثق صغير (Toast Notification) ==================== -->
+    <div id="toast-notification" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-desert-coffee text-desert-cream px-5 py-2.5 rounded-full shadow-lg border border-desert-gold/40 text-sm font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+        <span class="text-desert-bronze">✦</span>
+        <span id="toast-message">تمت الإضافة إلى السلة</span>
+    </div>
+
+    <!-- ==================== التذييل (Footer) ==================== -->
+    <footer class="bg-desert-cream border-t border-desert-sand/80 py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+            <!-- زخرفة إسلامية خفيفة في الفوتر -->
+            <svg class="w-8 h-8 text-desert-gold/60 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                <path d="M12 2L14.8 7.2L20.5 6.5L18.2 12L20.5 17.5L14.8 16.8L12 22L9.2 16.8L3.5 17.5L5.8 12L3.5 6.5L9.2 7.2L12 2Z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            <p class="font-serif text-xl font-bold text-desert-coffee">مطعم ديوان الشرق</p>
+            <p class="text-xs text-desert-mocha mt-1">أوقات العمل: يومياً من ١٢:٠٠ ظهراً حتى ١:٠٠ بعد منتصف الليل</p>
+            <p class="text-[11px] text-desert-mocha/70 mt-4">جميع الأسعار تشمل ضريبة القيمة المضافة • نتمنى لكم وجبة هنيئة</p>
+        </div>
+    </footer>
+
+    <!-- ==================== المنطق البرمجي التفاعلي (JavaScript) ==================== -->
+    <script>
+        // 1. بيانات أقسام المنيو
+        const categories = [
+            { id: 'all', name: 'الكل' },
+            { id: 'appetizers', name: 'المقبلات الباردة والساخنة' },
+            { id: 'grills', name: 'المشويات العربية' },
+            { id: 'mains', name: 'الأطباق الرئيسية' },
+            { id: 'desserts', name: 'الحلويات الشرقية' },
+            { id: 'drinks', name: 'المشروبات والقهوة' }
+        ];
+
+        // 2. بيانات الأطباق العربية الأصيلة مع صور عالية الدقة ومعلومات غذائية
+        const menuItems = [
+            {
+                id: 1,
+                category: 'appetizers',
+                name: 'حمص بيروتي بالصنوبر المحمص',
+                description: 'حمص كريمي ناعم محضر بالطحينة الفاخرة وعصير الليمون الطازج، مزين بحبات الصنوبر المحمص بالسمن العربي وزيت الزيتون البكر.',
+                price: 24,
+                calories: 340,
+                tags: ['الأكثر طلباً', 'نباتي'],
+                ingredients: ['حمص حب', 'طحينة سمسم', 'زيت زيتون بكر', 'صنوبر محمص', 'ليمون طازج'],
+                image: 'https://images.unsplash.com/photo-1577906096429-f73c2c312435?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 2,
+                category: 'appetizers',
+                name: 'كبة مقلية مقرمشة (٤ قطع)',
+                description: 'أقراص البرغل الذهبية المقرمشة المحشوة بلحم الضأن المفروم مع البصل والجوز ودبس الرمان.',
+                price: 32,
+                calories: 480,
+                tags: ['الأكثر طلباً'],
+                ingredients: ['برغل ناعم', 'لحم ضأن مفروم', 'جوز عين الجمل', 'دبس رمان', 'بهارات شرقية'],
+                image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 3,
+                category: 'appetizers',
+                name: 'متبل باذنجان مدخن على الحطب',
+                description: 'باذنجان مشوي على اللهب المباشر مهروس مع الطحينة والثوم، مزين بحبات الرمان الطازج وأوراق النعناع.',
+                price: 22,
+                calories: 260,
+                tags: ['نباتي'],
+                ingredients: ['باذنجان مشوي', 'طحينة', 'رمان طازج', 'زيت زيتون', 'ثوم'],
+                image: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 4,
+                category: 'appetizers',
+                name: 'بطاطا حرة بالكزبرة والثوم',
+                description: 'مكعبات البطاطا الذهبية المقلية مع الكزبرة الخضراء الطازجة، الثوم، وعصير الليمون مع لمسة من الفلفل الأحمر الحار.',
+                price: 20,
+                calories: 310,
+                tags: ['نباتي', 'حار'],
+                ingredients: ['بطاطا طازجة', 'كزبرة خضراء', 'ثوم مهروس', 'فلفل حار', 'ليمون'],
+                image: 'https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 5,
+                category: 'grills',
+                name: 'مشاوي ديوان الشرق المشكلة',
+                description: 'تشكيلة ملكية من الكباب الحلبي، أوصال اللحم المتبلة، والشيش طاووق المشوي على الفحم، تقدم مع الخبز المشروح والخضار المشوية.',
+                price: 88,
+                calories: 920,
+                tags: ['الأكثر طلباً'],
+                ingredients: ['كباب لحم غنم', 'أوصال لحم', 'شيش طاووق', 'خبز بالمحمرة', 'بصل وطماطم مشوية'],
+                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 6,
+                category: 'grills',
+                name: 'كباب خشخاش على الطريقة الحلبية',
+                description: 'أسياخ لحم الضأن المفروم يدوياً مع البقدونس، تقدم فوق صلصة الطماطم المشوية المتبلة بالثوم والفلفل الحار.',
+                price: 68,
+                calories: 740,
+                tags: ['حار'],
+                ingredients: ['لحم ضأن طازج', 'صلصة طماطم مشوية', 'فلفل حلبي', 'بقدونس', 'صنوبر'],
+                image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 7,
+                category: 'grills',
+                name: 'ريش غنم مشوية بالأعشاب الجبلية',
+                description: 'قطع ريش الضأن الطرية المتبلة بإكليل الجبل وزيت الزيتون والفلفل الأسود المجروش، مشوية بعناية على الفحم.',
+                price: 94,
+                calories: 850,
+                tags: [],
+                ingredients: ['ريش ضأن طازجة', 'إكليل الجبل', 'زيت زيتون', 'ثوم', 'فلفل أسود'],
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 8,
+                category: 'mains',
+                name: 'منسف أردني أصيل بالجميد الكركي',
+                description: 'قطع لحم الضأن المطهوة ببطء في لبن الجميد البلدي الفاخر، تقدم فوق أرز الزعفران وخبز الشراك مع اللوز والصنوبر المقلي.',
+                price: 85,
+                calories: 1120,
+                tags: ['الأكثر طلباً'],
+                ingredients: ['لحم ضأن بلدي', 'جميد كركي أصلي', 'أرز بسمتي', 'خبز شراك', 'لوز وصنوبر'],
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 9,
+                category: 'mains',
+                name: 'مقلوبة باذنجان بالدجاج المحمر',
+                description: 'طبقات الأرز المتبل بالهيل والقرفة مع شرائح الباذنجان الذهبية وقطع الدجاج المحمر، مزينة بالمكسرات وتقدم مع اللبن الرائب.',
+                price: 62,
+                calories: 860,
+                tags: [],
+                ingredients: ['دجاج طازج', 'باذنجان مقلي', 'أرز مصري وبسمتي', 'بهارات مشكلة', 'لوز محمص'],
+                image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 10,
+                category: 'mains',
+                name: 'طاجن لحم بالبرقوق واللوز',
+                description: 'طبق مغربي عريق من لحم العجل الطري المطهو بالزعفران والزنجبيل مع البرقوق المجفف المعسل والسمسم المحمص.',
+                price: 78,
+                calories: 790,
+                tags: [],
+                ingredients: ['لحم عجل', 'برقوق مجفف', 'زعفران حر', 'لوز مقلي', 'سمسم محمص'],
+                image: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 11,
+                category: 'desserts',
+                name: 'كنافة نابلسية خشنة بالجبن العكاوي',
+                description: 'شعيرات الكنافة الذهبية المقرمشة المحشوة بالجبن العكاوي المطاطي، مسقية بالقطر الدافئ ومزينة بالفستق الحلبي الفاخر.',
+                price: 34,
+                calories: 560,
+                tags: ['الأكثر طلباً', 'نباتي'],
+                ingredients: ['عجينة كنافة', 'جبن عكاوي', 'سمن عربي', 'فستق حلبي', 'قطر بماء الزهر'],
+                image: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 12,
+                category: 'desserts',
+                name: 'أم علي بالمكسرات والقشطة البلدية',
+                description: 'رقائق العجين المخبوزة بالحليب الطازج والقشطة الفاخرة مع جوز الهند والزبيب والمكسرات المحمصة في الفرن.',
+                price: 30,
+                calories: 490,
+                tags: ['نباتي'],
+                ingredients: ['رقائق عجين', 'حليب طازج', 'قشطة بلدية', 'فستق ولوز', 'قرفة'],
+                image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 13,
+                category: 'drinks',
+                name: 'دلة قهوة عربية بالهيل والزعفران',
+                description: 'قهوة عربية شقراء محمصة بعناية ومغلية مع الهيل الأخضر والزعفران، تقدم ساخنة في دلة تراثية مع تمر المجدول الفاخر.',
+                price: 28,
+                calories: 95,
+                tags: ['الأكثر طلباً', 'نباتي'],
+                ingredients: ['بن عربي أشقر', 'هيل أخضر', 'زعفران', 'تمر مجدول'],
+                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 14,
+                category: 'drinks',
+                name: 'شراب الجلاب الدمشقي بالصنوبر',
+                description: 'مشروب دبس التمر وماء الورد المنعش المقدم مع الثلج المجروش وحبات الصنوبر والزبيب.',
+                price: 18,
+                calories: 180,
+                tags: ['نباتي'],
+                ingredients: ['دبس التمر والعنب', 'ماء ورد', 'صنوبر', 'زبيب', 'ثلج مجروش'],
+                image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80'
+            }
+        ];
+
+        // 3. حالة التطبيق (State)
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let cart = []; // مصفوفة السلة: { item, quantity }
+        let selectedModalItem = null;
+        let modalQuantity = 1;
+
+        // 4. تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderMenu();
+            setupSearchListener();
+        });
+
+        // 5. رسم أزرار التصنيفات
+        function renderCategories() {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat.id === activeCategory;
+                return `
+                    <button 
+                        onclick="selectCategory('${cat.id}')"
+                        class="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                            isActive 
+                            ? 'bg-desert-coffee text-desert-cream shadow-sm font-bold' 
+                            : 'bg-desert-cream/80 text-desert-mocha hover:bg-desert-sand/60 border border-desert-sand/60'
+                        }"
+                    >
+                        ${cat.name}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // تغيير القسم النشط
+        function selectCategory(categoryId) {
+            activeCategory = categoryId;
+            const catObj = categories.find(c => c.id === categoryId);
+            document.getElementById('current-category-title').textContent = 
+                categoryId === 'all' ? 'جميع الأطباق' : catObj.name;
+            renderCategories();
+            renderMenu();
+        }
+
+        // إعداد شريط البحث
+        function setupSearchListener() {
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.trim();
+                clearBtn.classList.toggle('hidden', searchQuery === '');
+                renderMenu();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearBtn.classList.add('hidden');
+                renderMenu();
+            });
+        }
+
+        // إعادة ضبط الفلاتر
+        function resetFilters() {
+            activeCategory = 'all';
+            searchQuery = '';
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            document.getElementById('current-category-title').textContent = 'جميع الأطباق';
+            renderCategories();
+            renderMenu();
+        }
+
+        // تنسيق الوسوم (Tags) بألوان متناغمة
+        function getTagBadgeHTML(tag) {
+            if (tag === 'الأكثر طلباً') {
+                return `<span class="bg-desert-gold/95 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">★ الأكثر طلباً</span>`;
+            }
+            if (tag === 'نباتي') {
+                return `<span class="bg-desert-olive/95 text-white text-[11px] font-medium px-2.5 py-0.5 rounded-full shadow-xs">🌿 نباتي</span>`;
+            }
+            if (tag === 'حار') {
+                return `<span class="bg-desert-terracotta/95 text-white text-[11px] font-medium px-2.5 py-0.5 rounded-full shadow-xs">🌶️ حار</span>`;
+            }
+            return '';
+        }
+
+        // 6. عرض بطاقات الأطباق
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            const emptyState = document.getElementById('empty-search-state');
+            const countLabel = document.getElementById('items-count-label');
+
+            // تصفية الأطباق حسب القسم والبحث
+            const filtered = menuItems.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.name.includes(searchQuery) || item.description.includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            countLabel.textContent = `عرض ${filtered.length} من الأطباق المختارة`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(item => `
+                <article 
+                    onclick="openDishModal(${item.id})"
+                    class="menu-card bg-desert-cream border border-desert-sand/80 rounded-2xl overflow-hidden flex flex-col cursor-pointer group"
+                >
+                    <!-- صورة الطبق والوسوم -->
+                    <div class="relative h-48 bg-desert-sand/40 overflow-hidden">
+                        <img 
+                            src="${item.image}" 
+                            alt="${item.name}" 
+                            loading="lazy"
+                            onerror="this.src='https://placehold.co/600x400/E6D8C3/3E2C1C?text=ديوان+الشرق'"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        >
+                        <!-- تدرج خفيف أسفل الصورة -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-desert-coffee/40 via-transparent to-transparent"></div>
+                        
+                        <!-- الوسوم -->
+                        <div class="absolute top-3 right-3 flex flex-wrap gap-1.5">
+                            ${item.tags.map(tag => getTagBadgeHTML(tag)).join('')}
+                        </div>
+
+                        <!-- السعرات الحرارية -->
+                        <span class="absolute bottom-2.5 left-3 bg-desert-cream/90 backdrop-blur-xs text-desert-coffee text-[11px] font-medium px-2 py-0.5 rounded-lg">
+                            ${item.calories} سعرة
+                        </span>
+                    </div>
+
+                    <!-- محتوى البطاقة -->
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="font-serif text-xl font-bold text-desert-coffee group-hover:text-desert-gold transition-colors">
+                                    ${item.name}
+                                </h3>
+                            </div>
+                            <p class="text-desert-mocha text-xs sm:text-sm line-clamp-2 mt-2 leading-relaxed">
+                                ${item.description}
+                            </p>
+                        </div>
+
+                        <!-- السعر وزر الإضافة السريعة -->
+                        <div class="mt-5 pt-3.5 border-t border-desert-sand/60 flex items-center justify-between">
+                            <div>
+                                <span class="text-lg font-extrabold text-desert-coffee">${item.price}</span>
+                                <span class="text-xs text-desert-mocha font-medium">ر.س</span>
+                            </div>
+
+                            <button 
+                                onclick="event.stopPropagation(); addToCart(${item.id}, 1)"
+                                class="bg-desert-beige hover:bg-desert-coffee text-desert-coffee hover:text-desert-cream border border-desert-sand hover:border-desert-coffee px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5"
+                            >
+                                <span>+ أضف للطلب</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // 7. إدارة نافذة تفاصيل الطبق (Modal)
+        function openDishModal(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            selectedModalItem = item;
+            modalQuantity = 1;
+
+            document.getElementById('modal-dish-img').src = item.image;
+            document.getElementById('modal-dish-img').alt = item.name;
+            document.getElementById('modal-dish-name').textContent = item.name;
+            document.getElementById('modal-dish-price').textContent = `${item.price} ر.س`;
+            document.getElementById('modal-dish-desc').textContent = item.description;
+            document.getElementById('modal-dish-calories').textContent = item.calories;
+            document.getElementById('modal-qty').textContent = modalQuantity;
+
+            // الوسوم
+            document.getElementById('modal-dish-badges').innerHTML = item.tags.map(tag => getTagBadgeHTML(tag)).join('');
+
+            // المكونات
+            document.getElementById('modal-dish-ingredients').innerHTML = item.ingredients.map(ing => `
+                <span class="bg-desert-beige border border-desert-sand/80 text-desert-coffee text-xs px-2.5 py-1 rounded-lg">
+                    ${ing}
+                </span>
+            `).join('');
+
+            // ربط زر الإضافة
+            const addBtn = document.getElementById('modal-add-btn');
+            addBtn.onclick = () => {
+                addToCart(item.id, modalQuantity);
+                closeDishModal();
+            };
+
+            const modal = document.getElementById('dish-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeDishModal() {
+            const modal = document.getElementById('dish-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // إغلاق النافذة عند النقر على الخلفية
+        document.getElementById('dish-modal').addEventListener('click', closeDishModal);
+
+        function updateModalQty(delta) {
+            modalQuantity = Math.max(1, modalQuantity + delta);
+            document.getElementById('modal-qty').textContent = modalQuantity;
+        }
+
+        // 8. إدارة سلة الطلبات (Cart Logic)
+        function addToCart(itemId, quantity = 1) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(entry => entry.item.id === itemId);
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                cart.push({ item, quantity });
+            }
+
+            updateCartUI();
+            showToast(`تمت إضافة "${item.name}" إلى طلباتك`);
+        }
+
+        function changeCartItemQty(itemId, delta) {
+            const index = cart.findIndex(entry => entry.item.id === itemId);
+            if (index === -1) return;
+
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, entry) => sum + entry.quantity, 0);
+            const subtotal = cart.reduce((sum, entry) => sum + (entry.item.price * entry.quantity), 0);
+            const tax = subtotal * 0.15;
+            const total = subtotal + tax;
+
+            // تحديث العدادات
+            document.getElementById('header-cart-count').textContent = totalCount;
+            document.getElementById('mobile-cart-count').textContent = totalCount;
+            document.getElementById('mobile-cart-total').textContent = `${total.toFixed(0)} ر.س`;
+
+            // إظهار أو إخفاء الشريط السفلي للهاتف
+            const floatingBar = document.getElementById('floating-cart-bar');
+            if (totalCount > 0) {
+                floatingBar.classList.remove('translate-y-24');
+            } else {
+                floatingBar.classList.add('translate-y-24');
+            }
+
+            // رسم عناصر السلة داخل الدرج الجانبي
+            const container = document.getElementById('cart-items-container');
+            const footer = document.getElementById('cart-footer');
+
+            if (cart.length === 0) {
+                footer.classList.add('hidden');
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <svg class="w-16 h-16 text-desert-sand mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <h4 class="font-serif text-xl font-bold text-desert-coffee">سلة طلباتك فارغة</h4>
+                        <p class="text-xs text-desert-mocha mt-1 max-w-xs">تصفح قائمة الطعام وأضف أطباقك المفضلة لتبدأ تجربتك</p>
+                    </div>
+                `;
+                return;
+            }
+
+            footer.classList.remove('hidden');
+            container.innerHTML = cart.map(entry => `
+                <div class="bg-desert-beige/70 border border-desert-sand/80 rounded-2xl p-3.5 flex items-center gap-3.5">
+                    <img src="${entry.item.image}" alt="${entry.item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm text-desert-coffee truncate">${entry.item.name}</h4>
+                        <span class="text-xs font-bold text-desert-gold block mt-0.5">${entry.item.price * entry.quantity} ر.س</span>
+                        
+                        <!-- أزرار التحكم بالكمية -->
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="changeCartItemQty(${entry.item.id}, -1)" class="w-6 h-6 rounded-lg bg-desert-cream border border-desert-sand text-desert-coffee font-bold text-xs hover:bg-desert-sand transition">-</button>
+                            <span class="text-xs font-bold w-5 text-center">${entry.quantity}</span>
+                            <button onclick="changeCartItemQty(${entry.item.id}, 1)" class="w-6 h-6 rounded-lg bg-desert-cream border border-desert-sand text-desert-coffee font-bold text-xs hover:bg-desert-sand transition">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // تحديث الأرقام المالية
+            document.getElementById('cart-subtotal').textContent = `${subtotal.toFixed(2)} ر.س`;
+            document.getElementById('cart-tax').textContent = `${tax.toFixed(2)} ر.س`;
+            document.getElementById('cart-total').textContent = `${total.toFixed(2)} ر.س`;
+        }
+
+        // فتح وإغلاق سلة الطلبات الجانبية
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            } else {
+                updateCartUI();
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            }
+        }
+
+        // 9. إرسال الطلب وعرض ملخص الفاتورة
+        function submitOrder() {
+            if (cart.length === 0) return;
+
+            const tableNum = document.getElementById('table-number').value.trim() || 'غير محدد (طلب خارجي)';
+            const notes = document.getElementById('order-notes').value.trim();
+            const subtotal = cart.reduce((sum, entry) => sum + (entry.item.price * entry.quantity), 0);
+            const total = subtotal * 1.15;
+            const orderNumber = Math.floor(1000 + Math.random() * 9000);
+
+            const itemsListHTML = cart.map(entry => `
+                <div class="flex justify-between text-xs text-desert-mocha">
+                    <span>${entry.quantity} × ${entry.item.name}</span>
+                    <span class="font-bold text-desert-coffee">${entry.item.price * entry.quantity} ر.س</span>
+                </div>
+            `).join('');
+
+            document.getElementById('receipt-summary').innerHTML = `
+                <div class="flex justify-between border-b border-desert-sand pb-2">
+                    <span class="text-desert-mocha">رقم الطلب:</span>
+                    <span class="font-bold text-desert-coffee">#${orderNumber}</span>
+                </div>
+                <div class="flex justify-between border-b border-desert-sand pb-2">
+                    <span class="text-desert-mocha">الطاولة:</span>
+                    <span class="font-bold text-desert-coffee">${tableNum}</span>
+                </div>
+                <div class="py-1 space-y-1.5 border-b border-desert-sand">
+                    ${itemsListHTML}
+                </div>
+                ${notes ? `<div class="text-xs text-desert-mocha bg-desert-cream p-2 rounded-lg"><strong>ملاحظات:</strong> ${notes}</div>` : ''}
+                <div class="flex justify-between font-bold text-base text-desert-coffee pt-1">
+                    <span>الإجمالي شامل الضريبة:</span>
+                    <span class="text-desert-gold">${total.toFixed(2)} ر.س</span>
+                </div>
+            `;
+
+            // إغلاق السلة وتفريغها
+            toggleCartDrawer();
+            cart = [];
+            document.getElementById('order-notes').value = '';
+            updateCartUI();
+
+            // عرض نافذة الفاتورة
+            const receiptModal = document.getElementById('receipt-modal');
+            receiptModal.classList.remove('hidden');
+            receiptModal.classList.add('flex');
+        }
+
+        function closeReceiptModal() {
+            const receiptModal = document.getElementById('receipt-modal');
+            receiptModal.classList.add('hidden');
+            receiptModal.classList.remove('flex');
+        }
+
+        // 10. إشعار منبثق (Toast)
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
